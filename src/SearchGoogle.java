@@ -43,11 +43,11 @@ public class SearchGoogle extends HttpServlet {
 			request.getRequestDispatcher("Search.jsp").forward(request, response);
 			return;
 		}
-		//searchWords = inputKeyword + userInfo
-		String searchWords = request.getParameter("inputKeyword")+"+"+userInfo.getuserInfo();
-		GoogleQuery google = new GoogleQuery(searchWords);
-		HashMap<String, String> query = google.query();
-
+		//搜尋的文字透過google回傳搜尋結果
+//		GoogleQuery google = new GoogleQuery(request.getParameter("inputKeyword"));//原code
+		RepeatSearch repeatSearch = new RepeatSearch(userInfo,request.getParameter("inputKeyword"));
+//		HashMap<String, String> query = google.query(); //原code
+		HashMap<String, String> query = repeatSearch.query;
 		String[][] s = new String[query.size()][2];
 		request.setAttribute("query", s);
 		int num = 0;
@@ -58,6 +58,7 @@ public class SearchGoogle extends HttpServlet {
 			s[num][1] = value;
 			num++;
 		}
+		
 		request.getRequestDispatcher("googleitem.jsp").forward(request, response);
 
 	}

@@ -78,19 +78,19 @@ public class GoogleQuery
 		webPage = new ArrayList<WebPage>();
 		for (Element li : lis) {
 			try
-
 			{
 				String citeUrl = li.select("a").get(0).attr("href");
 				String title = li.select("a").get(0).select(".vvjwJb").text();
 				System.out.println(title + "," + citeUrl);
-				webPage.add(new WebPage(title,url));
+				if (url.contains("/url")) {
+					webPage.add(new WebPage(title,"google.com"+url));
+				}else {
+					webPage.add(new WebPage(title,url));
+				}
 				retVal.put(title,citeUrl);
 			} catch (IndexOutOfBoundsException e) {
-
 //				e.printStackTrace();
-
 			}
-
 		}
 
 		return retVal;

@@ -49,7 +49,17 @@ public class UserInfo extends HttpServlet {
 		return userInfo;
 	}
 
-//	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		
-//	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
+		//接收使用者名稱
+		name = request.getParameter("name");
+		if (request.getParameter("name") == null) {
+			String requestUri = request.getRequestURI();
+			request.setAttribute("requestUri", requestUri);
+			request.getRequestDispatcher("Search.jsp").forward(request, response);
+			return;
+		}
+	}
 }
