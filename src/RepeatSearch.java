@@ -40,6 +40,7 @@ public class RepeatSearch {
 		
 	}
 
+	
 //	private void calWebPageTitle(GoogleQuery googleQuery, int time) throws IOException {
 //		for (WebPage web : googleQuery.webPage) {
 //			for (String find : searchWord.split("+")) {
