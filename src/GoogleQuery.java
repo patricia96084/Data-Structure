@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,6 +20,8 @@ public class GoogleQuery
 	public String url;
 
 	public String content;
+	
+	public ArrayList<WebPage> webPage;
 
 	public GoogleQuery(String searchKeyword)
 
@@ -53,7 +56,7 @@ public class GoogleQuery
 		return retVal;
 	}
 
-	public HashMap<String, String> query() throws IOException
+	public HashMap<String,String> query() throws IOException
 
 	{
 
@@ -72,7 +75,7 @@ public class GoogleQuery
 		// System.out.println(lis);
 		lis = lis.select(".kCrYT");
 		// System.out.println(lis.size());
-
+		webPage = new ArrayList<WebPage>();
 		for (Element li : lis) {
 			try
 
@@ -80,8 +83,8 @@ public class GoogleQuery
 				String citeUrl = li.select("a").get(0).attr("href");
 				String title = li.select("a").get(0).select(".vvjwJb").text();
 				System.out.println(title + "," + citeUrl);
-				retVal.put(title, citeUrl);
-
+				webPage.add(new WebPage(title,url));
+				retVal.put(title,citeUrl);
 			} catch (IndexOutOfBoundsException e) {
 
 //				e.printStackTrace();
