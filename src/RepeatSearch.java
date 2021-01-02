@@ -28,33 +28,35 @@ public class RepeatSearch {
 
 	public void searchWebPage() throws IOException {
 		GoogleQuery googleQuery = new GoogleQuery(keyword.get(0).keyword);
-//		for (int i = 0; i < keyword.size(); i++) {
-//			if (i != 0) {
-//				googleQuery = new GoogleQuery(keyword.get(i).keyword + "+" + keyword.get(0).keyword);
-//			}
-//			calWebPageTitle(googleQuery, i);
+		for (int i = 0; i < keyword.size(); i++) {
+			if (i != 0) {
+				googleQuery = new GoogleQuery(keyword.get(i).keyword + "+" + keyword.get(0).keyword);
+			}
+			calWebPageTitle(googleQuery, i);
 //			calWebPageContent(googleQuery, i);
-//			webPage.addAll(googleQuery.webPage);
-//			query.putAll(googleQuery.query());
-//		}
+			webPage.addAll(googleQuery.webPage);
+			query.putAll(googleQuery.query());
+		}
 		
 	}
 
 	
-//	private void calWebPageTitle(GoogleQuery googleQuery, int time) throws IOException {
-//		for (WebPage web : googleQuery.webPage) {
-//			for (String find : searchWord.split("+")) {
-//				if (web.title.contains(find)) {
-//					web.score += keyword.get(0).weight * 2;
-//				}
-//			}
-//			if (time != 0) {
-//				if (web.title.contains(keyword.get(time).keyword)) {
-//					web.score += keyword.get(time).weight * 2;
-//				}
-//			}
-//		}
-//	}
+	private void calWebPageTitle(GoogleQuery googleQuery, int time) throws IOException {
+		int i = googleQuery.webPage.size();
+		for (WebPage web : googleQuery.webPage) {
+			for (String find : searchWord.split("+")) {
+				if (web.title.contains(find)) {
+					web.score += keyword.get(0).weight * i;
+				}
+			}
+			if (time != 0) {
+				if (web.title.contains(keyword.get(time).keyword)) {
+					web.score += keyword.get(time).weight * i;
+				}
+			}
+			i--;
+		}
+	}
 //
 //	private void calWebPageContent(GoogleQuery googleQuery, int time) throws IOException {
 //		
