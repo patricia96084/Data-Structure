@@ -37,12 +37,16 @@ public class UserInfo extends HttpServlet {
 		}
 	}
 
-	public String getInfoKeyword() {
-		String infoKeyword = name;
+	public String keywordToString() {
+		String infoKeyword = "";
 		for (String keywords : userInfo) {
 			infoKeyword = infoKeyword + "+"+ keywords;
 		}
 		return infoKeyword;
+	}
+	
+	public ArrayList<String> getuserInfo(){
+		return userInfo;
 	}
 
 //	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

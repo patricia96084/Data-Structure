@@ -23,6 +23,7 @@ public class SearchGoogle extends HttpServlet {
 	 */
 	public SearchGoogle() {
 		super();
+		//new UserInfo();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -43,7 +44,7 @@ public class SearchGoogle extends HttpServlet {
 			return;
 		}
 		//searchWords = inputKeyword + userInfo
-		String searchWords = request.getParameter("inputKeyword")+userInfo.getInfoKeyword();
+		String searchWords = request.getParameter("inputKeyword")+"+"+userInfo.getuserInfo();
 		GoogleQuery google = new GoogleQuery(searchWords);
 		HashMap<String, String> query = google.query();
 
