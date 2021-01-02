@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -16,14 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/TestProject")
 public class SearchGoogle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private UserInfo userInfo;
+	private ArrayList<String> userInfo;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public SearchGoogle() {
+	public SearchGoogle(ArrayList<String> userInfo) {
 		super();
-		//new UserInfo();
+		this.userInfo = userInfo;
 		// TODO Auto-generated constructor stub
 	}
 
