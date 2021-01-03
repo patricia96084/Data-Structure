@@ -23,9 +23,8 @@ public class SearchGoogle extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public SearchGoogle(ArrayList<String> userInfo) {
+	public SearchGoogle() {
 		super();
-		this.userInfo = userInfo;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -53,19 +52,30 @@ public class SearchGoogle extends HttpServlet {
 			return;
 		}
 		userFile = new File("beatGoogle_DataStructure\\" + userName + ".txt");
+		userInfo = new ArrayList<String>();
 		if (!userInfo()) {
+			System.out.println(request.getParameter("school"));
+			System.out.println(request.getParameter("area"));
+			System.out.println(request.getParameter("interest"));
+			
 			if (!word(request.getParameter("school"))) {
 				userInfo.add(request.getParameter("school"));
 			}
 			if (!word(request.getParameter("area"))) {
 				userInfo.add(request.getParameter("area"));
 			}
-			for (String interest : request.getParameter("interest").split(" ")) {
-				if (!word(interest)) {
-					userInfo.add(interest);
+			String interests = request.getParameter("interest");
+			if (interests != null && interests != "") {
+				for (String interest : request.getParameter("interest").split(" ")) {
+					if (!word(interest)) {
+						userInfo.add(interest);
+					}
 				}
+			} else {
+				System.out.println("interest is null or blank");
 			}
-			if (userInfo.size()==0) {
+			
+			if (userInfo.size() == 0) {
 				request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
 				return;
 			} else {
@@ -93,17 +103,15 @@ public class SearchGoogle extends HttpServlet {
 //		request.getRequestDispatcher("googleitem.jsp").forward(request, response);
 	}
 
-	
-	//whether the word include "not words"
+	// whether the word include "not words"
 	private boolean word(String word) {
-		if(word == null) {
+		if (word == null) {
 			return false;
 		}
 		return word.matches("[A-Za-z0-9\\u4e00-\\u9fa5]+");
 	}
 
-	
-	//load userInfo from file
+	// load userInfo from file
 	private boolean userInfo() throws IOException {
 		if (userFile.exists()) {
 			InputStreamReader isr = new InputStreamReader(new FileInputStream(userFile));
