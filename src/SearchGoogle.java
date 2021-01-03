@@ -38,13 +38,18 @@ public class SearchGoogle extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		if (request.getParameter("inputKeyword") == null) {
+//		if (request.getParameter("inputKeyword") == null) {
+//			String requestUri = request.getRequestURI();
+//			request.setAttribute("requestUri", requestUri);
+//			request.getRequestDispatcher("Search.jsp").forward(request, response);
+//			return;
+//		} //原code
+		if (request.getParameter("name")==null) {
 			String requestUri = request.getRequestURI();
-			request.setAttribute("requestUri", requestUri);
-			request.getRequestDispatcher("Search.jsp").forward(request, response);
-			return;
+			request.setAttribute("requestUri",requestUri);
+			
 		}
-		//搜尋的文字透過google回傳搜尋結果
+
 //		GoogleQuery google = new GoogleQuery(request.getParameter("inputKeyword"));//原code
 		RepeatSearch repeatSearch = new RepeatSearch(userInfo,request.getParameter("inputKeyword"));
 //		HashMap<String, String> query = google.query(); //原code
