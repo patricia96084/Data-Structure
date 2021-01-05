@@ -51,7 +51,7 @@ public class SearchGoogle extends HttpServlet {
 			request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
 			return;
 		}
-		userFile = new File("beatGoogle_DataStructure\\" + userName + ".txt");
+		userFile = new File(userName + ".txt");
 		userInfo = new ArrayList<String>();
 		if (!userInfo()) {
 			System.out.println(request.getParameter("school"));
