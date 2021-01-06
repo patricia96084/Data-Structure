@@ -82,7 +82,7 @@ public class GoogleQuery
 				String citeUrl = li.select("a").get(0).attr("href");
 				String title = li.select("a").get(0).select(".vvjwJb").text();
 				System.out.println(title + "," + citeUrl);
-				if (url.contains("/url")) {
+				if (url.startsWith("/url")) {
 					webPage.add(new WebPage(title,"google.com"+url));
 				}else {
 					webPage.add(new WebPage(title,url));

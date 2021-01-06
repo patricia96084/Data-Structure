@@ -52,43 +52,60 @@ public class SearchGoogle extends HttpServlet {
 			request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
 			return;
 		}
+		System.out.println(userName);
 //		userFile = (new UserInfoFile(,userName)).userFile;
 		userInfo = new ArrayList<String>();
 //		if (!userInfo()) {
-		System.out.println(userName);
-		System.out.println(request.getParameter("school"));
-		System.out.println(request.getParameter("userArea"));
-		System.out.println(request.getParameter("userInterest"));
-		if (request.getParameter("userArea") == null) {
-			return;
-		}
-
-		if (!word(request.getParameter("school"))) {
+//		System.out.println(userName);
+//		System.out.println(request.getParameter("school"));
+//		System.out.println(request.getParameter("userArea"));
+//		System.out.println(request.getParameter("userInterest"));
+		if (word(request.getParameter("school"))) {
 			userInfo.add(request.getParameter("school"));
 		}
-		if (!word(request.getParameter("userArea"))) {
+		if (word(request.getParameter("userArea"))) {
 			userInfo.add(request.getParameter("userArea"));
 		}
 		String interests = request.getParameter("userInterest");
-		if (interests != null && interests != "") {
-			for (String interest : request.getParameter("userInterest").split(" ")) {
-				if (!word(interest)) {
+		if (interests != null) {
+			for (String interest : interests.split(" ")) {
+				if (word(interest)) {
 					userInfo.add(interest);
 				}
 			}
 		} else {
-			System.out.println("interest is null or blank");
+			System.out.println("interest is null");
+		}
+
+		for (String i : userInfo) {
+			System.out.println(i);
 		}
 
 		if (userInfo.size() == 0) {
 			request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
 			return;
-		} else {
+		} else if (!word(request.getParameter("keyword"))) {
 //				createUserInfo(userInfo);
+//			System.out.println("k");
 			request.getRequestDispatcher("SearchPage.jsp").forward(request, response);
 			return;
+		} else {
+			RepeatSearch repeatSearch = new RepeatSearch(userInfo, request.getParameter("keyword"));
+			HashMap<String, String> query = repeatSearch.query;
+			String[][] s = new String[query.size()][2];
+			request.setAttribute("query", s);
+			int num = 0;
+			for (Entry<String, String> entry : query.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				s[num][0] = key;
+				s[num][1] = value;
+				num++;
+			}
+
+			request.getRequestDispatcher("googleitem.jsp").forward(request, response);
 		}
-//		}
+//	}
 
 ////		GoogleQuery google = new GoogleQuery(request.getParameter("inputKeyword"));//­ìcode
 //		RepeatSearch repeatSearch = new RepeatSearch(userInfo, request.getParameter("inputKeyword"));
