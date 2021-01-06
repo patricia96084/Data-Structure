@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SearchGoogle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<String> userInfo;
-	private File userFile;
+//	private File userFile;
 	private String userName;
 
 	/**
@@ -37,23 +37,26 @@ public class SearchGoogle extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+/*		­ìcode
 		response.setContentType("text/html");
-//		if (request.getParameter("inputKeyword") == null) {
-//			String requestUri = request.getRequestURI();
-//			request.setAttribute("requestUri", requestUri);
-//			request.getRequestDispatcher("Search.jsp").forward(request, response);
-//			return;
-//		} //­ìcode
+		if (request.getParameter("inputKeyword") == null) {
+			String requestUri = request.getRequestURI();
+			request.setAttribute("requestUri", requestUri);
+			request.getRequestDispatcher("Search.jsp").forward(request, response);
+			return;
+		}  */
 		userName = request.getParameter("name");
-		if (userName == null) {
+		if (userName == null || !userName.matches("[a-zA-Z0-9_]+")) {
 			String requestUri = request.getRequestURI();
 			request.setAttribute("requestUri", requestUri);
 			request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
 			return;
 		}
-		userFile = new File(userName + ".txt");
+//		userFile = (new UserInfoFile(,userName)).userFile;
 		userInfo = new ArrayList<String>();
-		if (!userInfo()) {
+//		if (!userInfo()) {
+			System.out.println(userName);
 			System.out.println(request.getParameter("school"));
 			System.out.println(request.getParameter("area"));
 			System.out.println(request.getParameter("interest"));
@@ -79,11 +82,11 @@ public class SearchGoogle extends HttpServlet {
 				request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
 				return;
 			} else {
-				createUserInfo(userInfo);
+//				createUserInfo(userInfo);
 				request.getRequestDispatcher("SearchPage.jsp").forward(request, response);
 				return;
 			}
-		}
+//		}
 
 ////		GoogleQuery google = new GoogleQuery(request.getParameter("inputKeyword"));//­ìcode
 //		RepeatSearch repeatSearch = new RepeatSearch(userInfo, request.getParameter("inputKeyword"));
@@ -112,32 +115,32 @@ public class SearchGoogle extends HttpServlet {
 	}
 
 	// load userInfo from file
-	private boolean userInfo() throws IOException {
-		if (userFile.exists()) {
-			InputStreamReader isr = new InputStreamReader(new FileInputStream(userFile));
-			BufferedReader br = new BufferedReader(isr);
-			for (String infos : br.readLine().split(" ")) {
-				userInfo.add(infos);
-			}
-			br.close();
-			isr.close();
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	private void createUserInfo(ArrayList<String> info) throws IOException {
-		userFile.createNewFile();
-		FileOutputStream fos = new FileOutputStream(userFile);
-		PrintWriter pw = new PrintWriter(fos);
-		for (String infos : userInfo) {
-			pw.write(infos + " ");
-		}
-		pw.close();
-		fos.close();
-		return;
-	}
+//	private boolean userInfo() throws IOException {
+//		if (userFile.exists()) {
+//			InputStreamReader isr = new InputStreamReader(new FileInputStream(userFile));
+//			BufferedReader br = new BufferedReader(isr);
+//			for (String infos : br.readLine().split(" ")) {
+//				userInfo.add(infos);
+//			}
+//			br.close();
+//			isr.close();
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
+//
+//	private void createUserInfo(ArrayList<String> info) throws IOException {
+//		userFile.createNewFile();
+//		FileOutputStream fos = new FileOutputStream(userFile);
+//		PrintWriter pw = new PrintWriter(fos);
+//		for (String infos : userInfo) {
+//			pw.write(infos + " ");
+//		}
+//		pw.close();
+//		fos.close();
+//		return;
+//	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
