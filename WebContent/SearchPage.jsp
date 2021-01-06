@@ -7,7 +7,7 @@
 <title>Go Search!</title>
 </head>
 <body>
-	<form action='${requestUri}' method='post'>
+	<form action='${searchRequestUri}' method='post'>
 		Please make sure there's no marks, otherwise we can find nothing.<br>
 		Your name/nickname can only contained English or numbers.<br>
 		We would show you results that related to information about you.<br>
