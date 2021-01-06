@@ -45,32 +45,25 @@ public class SearchGoogle extends HttpServlet {
 		 * request.getRequestDispatcher("Search.jsp").forward(request, response);
 		 * return; }
 		 */
-		if (userName == null) {
-			String requestUri = request.getRequestURI();
-			request.setAttribute("requestUri", requestUri);
-			request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
+		if (request.getParameter("name") == null || request.getParameter("keyword") == null) {
+			goSearchPage(request, response);
 			return;
 		}
-
 		userName = request.getParameter("name");
 		if (!userName.matches("[a-zA-Z0-9_]+")) {
-			String requestUri = request.getRequestURI();
-			request.setAttribute("requestUri", requestUri);
-			request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
+			goSearchPage(request, response);
 			return;
 		}
 		// System.out.println(userName);
 		postUserInfo(request);
-		if (userInfo.size() > 0 && keyword != null) {
+		keyword = request.getParameter("keyword");
+		if (userInfo.size() > 0 && word(keyword)) {
 			search(request);
 			request.getRequestDispatcher("googleitem.jsp").forward(request, response);
 			return;
-		} else if (userInfo.size() > 0) {
-			String requestUri = request.getRequestURI();
-			request.setAttribute("searchRequestUri", requestUri);
-			request.getRequestDispatcher("SearchPage.jsp").forward(request, response);
-			return;
 		}
+		goSearchPage(request,response);
+		return;
 	}
 
 ////		GoogleQuery google = new GoogleQuery(request.getParameter("inputKeyword"));//­ìcode
@@ -89,6 +82,13 @@ public class SearchGoogle extends HttpServlet {
 //		}
 //
 //		request.getRequestDispatcher("googleitem.jsp").forward(request, response);
+
+	private void goSearchPage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String requestUri = request.getRequestURI();
+		request.setAttribute("requestUri", requestUri);
+		request.getRequestDispatcher("SearchPage.jsp").forward(request, response);
+	}
 
 	private void postUserInfo(HttpServletRequest request) {
 		userInfo = new ArrayList<String>();
