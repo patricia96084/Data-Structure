@@ -23,7 +23,11 @@ public class RepeatSearch {
 	private void concludeKeyword() {
 		keyword.add(new Keyword(searchWord, 5));
 		for (String infos : userInfo) {
-			keyword.add(new Keyword(infos, 1));
+			keyword.add(new Keyword(infos, 2));
+		}
+
+		for (Keyword word : keyword) {
+			System.out.println(word);
 		}
 	}
 
@@ -45,31 +49,23 @@ public class RepeatSearch {
 
 	private void getGoogleQuery(int i) throws IOException {
 		GoogleQuery googleQuery;
+		int add;
 		if (i == 0) {
 			googleQuery = new GoogleQuery(keyword.get(0).keyword);
-			query = googleQuery.query();
-			WebPage repeat;
-			for (WebPage web : googleQuery.webPage) {
-				repeat = repeated(web);
-				if (repeat == null) {
-					web.score += 5;
-					webPage.add(web);
-				} else {
-					webPage.get(webPage.indexOf(repeat)).score += 5;
-				}
-			}
+			add = keyword.get(0).weight;
 		} else {
 			googleQuery = new GoogleQuery(keyword.get(0).keyword + "+" + keyword.get(i).keyword);
-			query = googleQuery.query();
-			WebPage repeat;
-			for (WebPage web : googleQuery.webPage) {
-				repeat = repeated(web);
-				if (repeat == null) {
-					web.score += 7;
-					webPage.add(web);
-				} else {
-					webPage.get(webPage.indexOf(repeat)).score += 7;
-				}
+			add = keyword.get(0).weight + keyword.get(i).weight;
+		}
+		query = googleQuery.query();
+		WebPage repeat;
+		for (WebPage web : googleQuery.webPage) {
+			repeat = repeated(web);
+			if (repeat == null) {
+				web.score += add;
+				webPage.add(web);
+			} else {
+				webPage.get(webPage.indexOf(repeat)).score += add;
 			}
 		}
 	}

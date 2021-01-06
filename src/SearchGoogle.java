@@ -118,8 +118,9 @@ public class SearchGoogle extends HttpServlet {
 		}
 	}
 
-	private void search(HttpServletRequest request) {
+	private void search(HttpServletRequest request) throws IOException {
 		RepeatSearch repeatSearch = new RepeatSearch(userInfo, request.getParameter("keyword"));
+		repeatSearch.searchWebPage();
 		HashMap<String, String> query = repeatSearch.query;
 		String[][] s = new String[query.size()][2];
 		request.setAttribute("query", s);
