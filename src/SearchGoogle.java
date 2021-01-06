@@ -38,14 +38,13 @@ public class SearchGoogle extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-/*		­ìcode
-		response.setContentType("text/html");
-		if (request.getParameter("inputKeyword") == null) {
-			String requestUri = request.getRequestURI();
-			request.setAttribute("requestUri", requestUri);
-			request.getRequestDispatcher("Search.jsp").forward(request, response);
-			return;
-		}  */
+		/*
+		 * ­ìcode response.setContentType("text/html"); if
+		 * (request.getParameter("inputKeyword") == null) { String requestUri =
+		 * request.getRequestURI(); request.setAttribute("requestUri", requestUri);
+		 * request.getRequestDispatcher("Search.jsp").forward(request, response);
+		 * return; }
+		 */
 		userName = request.getParameter("name");
 		if (userName == null || !userName.matches("[a-zA-Z0-9_]+")) {
 			String requestUri = request.getRequestURI();
@@ -56,36 +55,39 @@ public class SearchGoogle extends HttpServlet {
 //		userFile = (new UserInfoFile(,userName)).userFile;
 		userInfo = new ArrayList<String>();
 //		if (!userInfo()) {
-			System.out.println(userName);
-			System.out.println(request.getParameter("school"));
-			System.out.println(request.getParameter("area"));
-			System.out.println(request.getParameter("interest"));
-			
-			if (!word(request.getParameter("school"))) {
-				userInfo.add(request.getParameter("school"));
-			}
-			if (!word(request.getParameter("area"))) {
-				userInfo.add(request.getParameter("area"));
-			}
-			String interests = request.getParameter("interest");
-			if (interests != null && interests != "") {
-				for (String interest : request.getParameter("interest").split(" ")) {
-					if (!word(interest)) {
-						userInfo.add(interest);
-					}
+		System.out.println(userName);
+		System.out.println(request.getParameter("school"));
+		System.out.println(request.getParameter("userArea"));
+		System.out.println(request.getParameter("userInterest"));
+		if (request.getParameter("userArea") == null) {
+			return;
+		}
+
+		if (!word(request.getParameter("school"))) {
+			userInfo.add(request.getParameter("school"));
+		}
+		if (!word(request.getParameter("userArea"))) {
+			userInfo.add(request.getParameter("userArea"));
+		}
+		String interests = request.getParameter("userInterest");
+		if (interests != null && interests != "") {
+			for (String interest : request.getParameter("userInterest").split(" ")) {
+				if (!word(interest)) {
+					userInfo.add(interest);
 				}
-			} else {
-				System.out.println("interest is null or blank");
 			}
-			
-			if (userInfo.size() == 0) {
-				request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
-				return;
-			} else {
+		} else {
+			System.out.println("interest is null or blank");
+		}
+
+		if (userInfo.size() == 0) {
+			request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
+			return;
+		} else {
 //				createUserInfo(userInfo);
-				request.getRequestDispatcher("SearchPage.jsp").forward(request, response);
-				return;
-			}
+			request.getRequestDispatcher("SearchPage.jsp").forward(request, response);
+			return;
+		}
 //		}
 
 ////		GoogleQuery google = new GoogleQuery(request.getParameter("inputKeyword"));//­ìcode
