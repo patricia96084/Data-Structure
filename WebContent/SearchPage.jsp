@@ -12,13 +12,12 @@
 		Your name/nickname can only contained English or numbers.<br>
 		Only inputting your name is allowed, if you have registered before.<br>
 		We would show you results that related to information about you.<br>
-		<input type='text' name='name' placeholder='name' /> <br> <input
-			type='text' name='school' placeholder='school' /> <input type='text'
-			name='userArea' placeholder='where you life' /> <input type='text'
-			name='userInterest'
-			placeholder='interested subject (split with space)' /><br> <br>
-		<input type='text' name='keyword' placeholder='keyword' /> <input
-			type='submit' value='submit'>
+		<input type='text' name='name' placeholder='name' /> <br> 
+		<input type='text' name='school' placeholder='school' /> 
+		<input type='text' name='userArea' placeholder='where you live' /> 
+		<input type='text' name='userInterest' placeholder='interested subject (split with space)' /><br>
+		<input type='text' name='keyword' placeholder='keyword' /> 
+		<input type='submit' value='submit'>
 	</form>
 </body>
 </html>

@@ -55,14 +55,19 @@ public class SearchGoogle extends HttpServlet {
 			return;
 		}
 		// System.out.println(userName);
-		postUserInfo(request);
 		keyword = request.getParameter("keyword");
+//		System.out.println(keyword);
+		if (!word(keyword)) {
+			goSearchPage(request, response);
+			return;
+		}
+		postUserInfo(request);
 		if (userInfo.size() > 0 && word(keyword)) {
 			search(request);
 			request.getRequestDispatcher("googleitem.jsp").forward(request, response);
 			return;
 		}
-		goSearchPage(request,response);
+		goSearchPage(request, response);
 		return;
 	}
 
@@ -113,13 +118,13 @@ public class SearchGoogle extends HttpServlet {
 			}
 		}
 
-		for (String i : userInfo) {
-			System.out.println(i);
-		}
+//		for (String i : userInfo) {
+//			System.out.println(i);
+//		}
 	}
 
 	private void search(HttpServletRequest request) throws IOException {
-		RepeatSearch repeatSearch = new RepeatSearch(userInfo, request.getParameter("keyword"));
+		RepeatSearch repeatSearch = new RepeatSearch(userInfo, keyword);
 		repeatSearch.searchWebPage();
 		HashMap<String, String> query = repeatSearch.query;
 		String[][] s = new String[query.size()][2];

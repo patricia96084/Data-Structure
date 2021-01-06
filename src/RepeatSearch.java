@@ -35,6 +35,9 @@ public class RepeatSearch {
 		for (int i = 0; i < keyword.size(); i++) {
 			getGoogleQuery(i);
 		}
+		for (WebPage webPage : webPage) {
+			System.out.println(webPage.title.substring(0, 5) + "," + webPage.score + webPage.url.substring(0, 5));
+		}
 	}
 //		GoogleQuery googleQuery = new GoogleQuery(keyword.get(0).keyword);
 //		for (int i = 0; i < keyword.size(); i++) {
@@ -58,6 +61,7 @@ public class RepeatSearch {
 			add = keyword.get(0).weight + keyword.get(i).weight;
 		}
 		query = googleQuery.query();
+		System.out.println(googleQuery.url);
 		WebPage repeat;
 		for (WebPage web : googleQuery.webPage) {
 			repeat = repeated(web);
@@ -66,6 +70,11 @@ public class RepeatSearch {
 				webPage.add(web);
 			} else {
 				webPage.get(webPage.indexOf(repeat)).score += add;
+			}
+			if (web.title.length() > 5) {
+				System.out.println(web.title.substring(0, 5) + "," + web.score + web.url.substring(0, 5));
+			} else {
+				System.out.println(web.title+ "," + web.score + web.url.substring(0, 5));
 			}
 		}
 	}
