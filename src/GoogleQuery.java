@@ -86,11 +86,11 @@ public class GoogleQuery
 				String citeUrl = li.select("a").get(0).attr("href");
 				String title = li.select("a").get(0).select(".vvjwJb").text();
 				System.out.println(title + "," + citeUrl);
-				if (url.startsWith("/?url")) {
-					webPage.add(new WebPage(title, "google.com" + url));
-				} else {
-					webPage.add(new WebPage(title, url));
-				}
+//				if (url.startsWith("/?url")) {
+//					webPage.add(new WebPage(title, "google.com" + url));
+//				} else {
+//					webPage.add(new WebPage(title, url));
+//				}
 				retVal.put(title, citeUrl);
 			} catch (IndexOutOfBoundsException e) {
 //				e.printStackTrace();

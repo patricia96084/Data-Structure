@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
+
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
 
@@ -34,10 +36,19 @@ public class RepeatSearch {
 	public void searchWebPage() throws IOException {
 		for (int i = 0; i < keyword.size(); i++) {
 			getGoogleQuery(i);
+			for (WebPage web : webPage) {
+				System.out.println(web.title + "," + web.score + web.url.substring(0, 5));
+			}
 		}
-		for (WebPage webPage : webPage) {
-			System.out.println(webPage.title.substring(0, 5) + "," + webPage.score + webPage.url.substring(0, 5));
-		}
+		webPage.sort(new WebPageComparator());
+//		for (WebPage web : webPage) {
+//			if (web.title.length() > 5) {
+//				System.out.println(web.title.substring(0, 5) + "," + web.score + web.url.substring(0, 5));
+//			} else {
+//				System.out.println(web.title + "," + web.score + web.url.substring(0, 5));
+//			}
+//		}
+
 	}
 //		GoogleQuery googleQuery = new GoogleQuery(keyword.get(0).keyword);
 //		for (int i = 0; i < keyword.size(); i++) {
@@ -51,41 +62,65 @@ public class RepeatSearch {
 //		}
 
 	private void getGoogleQuery(int i) throws IOException {
-		GoogleQuery googleQuery;
-		int add;
-		if (i == 0) {
-			googleQuery = new GoogleQuery(keyword.get(0).keyword);
-			add = keyword.get(0).weight;
-		} else {
-			googleQuery = new GoogleQuery(keyword.get(0).keyword + "+" + keyword.get(i).keyword);
-			add = keyword.get(0).weight + keyword.get(i).weight;
+		String keywordGoSearch = keyword.get(0).keyword;
+		if (i!=0) {
+			keywordGoSearch = keywordGoSearch+"+"+keyword.get(i).keyword;
 		}
-		query = googleQuery.query();
-		System.out.println(googleQuery.url);
-		WebPage repeat;
-		for (WebPage web : googleQuery.webPage) {
-			repeat = repeated(web);
-			if (repeat == null) {
-				web.score += add;
-				webPage.add(web);
-			} else {
-				webPage.get(webPage.indexOf(repeat)).score += add;
-			}
-			if (web.title.length() > 5) {
-				System.out.println(web.title.substring(0, 5) + "," + web.score + web.url.substring(0, 5));
-			} else {
-				System.out.println(web.title+ "," + web.score + web.url.substring(0, 5));
-			}
-		}
+		GoogleQuery googleQuery = new GoogleQuery(keywordGoSearch);
+		query.putAll(googleQuery.query());
+		
+//		GoogleQuery googleQuery;
+//		int add;
+//		if (i == 0) {
+//			googleQuery = new GoogleQuery(keyword.get(0).keyword);
+//			add = keyword.get(0).weight;
+//		} else {
+//			googleQuery = new GoogleQuery(keyword.get(0).keyword + "+" + keyword.get(i).keyword);
+//			add = keyword.get(0).weight + keyword.get(i).weight;
+//		}
+//		query = googleQuery.query();
+////		System.out.println(googleQuery.url);
+//		WebPage repeat;
+//		for (WebPage web : googleQuery.webPage) {
+//			repeat = repeated(web);
+//			if (repeat == null) {
+//				web.score += add;
+//				webPage.add(web);
+//			} else {
+//				webPage.get(webPage.indexOf(repeat)).score += add;
+//			}
+////			if (web.title.length() > 5) {
+////				System.out.println(web.title.substring(0, 5) + "," + web.score + web.url.substring(0, 5));
+////			} else {
+////				System.out.println(web.title+ "," + web.score + web.url.substring(0, 5));
+////			}
+//		}
+//		GoogleQuery googleQuery = new GoogleQuery(keyword.get(i).keyword);
+//		int add = keyword.get(i).weight;
+//		if (i > 0) {
+//			googleQuery = new GoogleQuery(keyword.get(0).keyword + "+" + keyword.get(i).keyword);
+//			add = keyword.get(i).weight + keyword.get(0).weight;
+//		}
+//		googleQuery.query();
+//		WebPage repeat;
+//		ArrayList<WebPage> gooWeb = googleQuery.webPage;
+//		for (WebPage web : gooWeb) {
+//			repeated(web,add);
+//		}
 	}
 
-	private WebPage repeated(WebPage web) {
+	private void repeated(WebPage web, int score) {
 		for (WebPage page : webPage) {
 			if (web.url.startsWith(page.url) || page.url.startsWith(web.url)) {
-				return page;
+				page.score += score;
+				System.out.println(page.title + " is updated with the score of " + score);
+				return;
 			}
 		}
-		return null;
+		web.score += score;
+		webPage.add(web);
+		System.out.println(
+				web.title + " is added with the score of " + score + " at the position of" + webPage.indexOf(web));
 	}
 
 //	private void calWebPageTitle(GoogleQuery googleQuery, int time) throws IOException {
